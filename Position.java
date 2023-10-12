@@ -20,9 +20,9 @@ public class Position {
         return row;
     }
     
-    public Position getPosition() {
-    	return new Position(this.col, this.row);	
-    }
-    
-    
 }
+   
+   
+    
+    
+    

@@ -16,10 +16,10 @@ public class UCMShip {
 	private int points;
 	
 	public UCMShip(Game game) {
-		this.life = life;
+		this.life = ARMOR;
 		this.game = game;
-		this.pos = new Position(0, 0);
-		this.points = points;
+		this.pos = new Position(4, 7);
+		this.points = 0;
 	}
 	
 	public boolean isAlive() {
@@ -64,13 +64,7 @@ public class UCMShip {
 	}
 	
 	public String stateToString() {
-		String st = new String();
-		
-		if(player.isOnPosition(pos)) {
-			st = getSymbol();
-		}
-		
-		return st;
+	return "";
 	}
 	
 	public String getInfo() {

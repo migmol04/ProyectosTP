@@ -12,22 +12,47 @@ public class Game {
 	private long seed;
 	private boolean end;
 	private UCMShip ucmShip;
+	
+	private Game game;
 
 	//TODO fill your code
 
 	public Game(Level level, long seed) {
 		this.level = level;
 		this.seed = seed;
-		end = false;
+		game = this;
 		
-		ucmShip = new UCMShip(this);
+		ucmShip = new UCMShip(game);
 	}
 	
 
 	public String stateToString() {
-		
-		return "";
+		int dimX = Game.DIM_X;
+		int dimY = Game.DIM_Y;
+		String[][] board = new String[dimX][dimY];
+
+		// Inicializa el tablero con caracteres vacíos
+		for (int x = 0; x < dimX; x++) {
+		    for (int y = 0; y < dimY; y++) {
+		        board[x][y] = " ";
+		    }
+		}
+
+		// Coloca el símbolo de la nave en la posición (4, 7)
+		board[4][7] = ucmShip.getSymbol();
+
+		// Construye la representación del tablero como una cadena
+		StringBuilder sb = new StringBuilder();
+		for (int y = 0; y < dimY; y++) {
+		    for (int x = 0; x < dimX; x++) {
+		        sb.append(board[x][y]);
+		    }
+		    sb.append('\n');
+		}
+
+		return sb.toString();
 	}
+
 
 	public int getCycle() {
 		//TODO fill your code

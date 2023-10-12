@@ -1,5 +1,6 @@
 package tp1.logic.gameobjects;
 import tp1.logic.*;
+import tp1.logic.*;
 import tp1.view.*;
 
 public class UCMShip {
@@ -11,11 +12,14 @@ public class UCMShip {
 	private Game game;
 	private int life;
 	private Position pos;
+	private UCMShip player;
+	private int points;
 	
 	public UCMShip(Game game) {
 		this.life = life;
 		this.game = game;
 		this.pos = new Position(0, 0);
+		this.points = points;
 	}
 	
 	public boolean isAlive() {
@@ -30,12 +34,13 @@ public class UCMShip {
 
 	}
 	
-	public void isOnPosition() {
+	public boolean isOnPosition(Position p) {
+		return this.pos.equals(p);
 		
 	}
 	
 	public Position getPosition() {
-		return pos;
+		 return this.pos;
 	}
 	
 	public void recieveDamage() {
@@ -59,7 +64,13 @@ public class UCMShip {
 	}
 	
 	public String stateToString() {
-		return "";
+		String st = new String();
+		
+		if(player.isOnPosition(pos)) {
+			st = getSymbol();
+		}
+		
+		return st;
 	}
 	
 	public String getInfo() {

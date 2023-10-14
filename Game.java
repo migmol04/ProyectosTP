@@ -26,7 +26,7 @@ public class Game {
 	
 
 	public String stateToString() {
-		return "";
+		return ucmShip.getInfo();
 	}
 
 
@@ -43,9 +43,8 @@ public class Game {
 	public String positionToString(int col, int row) {
 
 		    Position pos = new Position(col, row);
-		    System.out.println("HOLA2");
 		    if (ucmShip.isOnPosition(pos)) {
-		    	System.out.println("HOLA");
+		
 		        return ucmShip.getSymbol();
 		    }
 		    
@@ -77,14 +76,6 @@ public class Game {
 		//TODO fill your code
 		return null;
 	}
-	
-	public UCMShip getUCMShip() {
-        return ucmShip;
-    }
-	
-	public void setUCMShip(UCMShip ucmShip) {
-        this.ucmShip = ucmShip;
-    }
 
 
 }

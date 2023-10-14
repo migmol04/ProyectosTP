@@ -20,6 +20,7 @@ public class UCMShip {
 		this.game = game;
 		this.pos = new Position(4, 7);
 		this.points = 0;
+		this.canShoot = false;
 	}
 	
 	public boolean isAlive() {
@@ -35,7 +36,9 @@ public class UCMShip {
 	}
 	
 	public boolean isOnPosition(Position p) {
-		return this.pos.equals(p);
+		
+		return (this.pos.getX() == p.getX()) && (this.pos.getY() == p.getY());
+		
 		
 	}
 	
@@ -68,9 +71,9 @@ public class UCMShip {
 	}
 	
 	public String getInfo() {
-		return "";	
+	   
+	    return "";
 	}
-	
 	public String getDescription() {
 		return "";
 	}
@@ -92,14 +95,37 @@ public class UCMShip {
 	}
 	
 	public void enableLaser() {
+		this.canShoot = true;
 		
 	}
 	
 	public boolean shootLaser() {
-		return true;
+		return canShoot;
 	}
 	
 	public void recieveAttack() {
 		
 	}
+	
+	public boolean move(Move move) {
+	    int newX = pos.getX() + move.getX();
+	    int newY = pos.getY() + move.getY();
+	    boolean exito = false;
+
+	    if (isValidPosition(newX, newY)) {
+	        pos = new Position(newX, newY);
+	       exito = true; // El movimiento se realizó con éxito
+	    }
+
+	   return exito; // El movimiento no se pudo realizar
+	}
+	
+	private boolean isValidPosition(int x, int y) {
+		 int gameWidth = Game.DIM_X;
+		 int gameHeight = Game.DIM_Y;
+		 return x >= 0 && x < gameWidth && y >= 0 && y < gameHeight;
+	}
+	
+	
+
 }

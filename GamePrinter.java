@@ -4,10 +4,9 @@ package tp1.view;
 import static tp1.util.MyStringUtils.repeat;
 import tp1.logic.Game;
 import tp1.util.MyStringUtils;
-import tp1.logic.gameobjects.*;
 
 public class GamePrinter {
-	
+
 	private static final String SPACE = " ";
 
 	private static final String CELL_BORDER_CHAR = "─";
@@ -23,15 +22,11 @@ public class GamePrinter {
 	private static final String ROW_BORDER = SPACE + repeat(CELL_BORDER, Game.DIM_X) + NEW_LINE;
 
 	private Game game;
-	
-	UCMShip ucmShip = game.getUCMShip();
-	
-		
+
 	public GamePrinter(Game game) {
 		this.game = game;
-        ucmShip = game.getUCMShip(); 
 	}	
-	
+
 	/**
 	 * Builds a string that represent the game status
 	 * 
@@ -50,9 +45,9 @@ public class GamePrinter {
 
 	@Override
 	public String toString() {
-		
+
 		StringBuilder str = new StringBuilder();
-	
+
 		// Game Status
 		str.append(getInfo());
 
@@ -62,16 +57,6 @@ public class GamePrinter {
 		for (int row = 0; row < Game.DIM_Y; row++) {
 			str.append(VERTICAL_DELIMITER);
 			for (int col = 0; col < Game.DIM_X; col++) {
-				Position currentPosition = new Position(col, row);
-				Position ucmShipPosition = game.getUCMShip().getPosition();
-				if (currentPosition.equals(ucmShipPosition)) {
-	                // Si la posición actual es la de la nave UCMShip, utiliza su símbolo
-	                str.append(MyStringUtils.center(game.getUCMShip().getSymbol(), CELL_SIZE));
-	            } else {
-	                // En caso contrario, utiliza la representación normal de la posición
-	                str.append(MyStringUtils.center(game.positionToString(col, row), CELL_SIZE));
-	            }
-				
 				str.append(MyStringUtils.center(game.positionToString(col, row), CELL_SIZE));
 				str.append(VERTICAL_DELIMITER);
 			}
@@ -88,12 +73,11 @@ public class GamePrinter {
 	 */
 	public String endMessage() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		if (game.playerWin()) sb.append(Messages.PLAYER_WINS);
 		else if (game.aliensWin()) sb.append(Messages.ALIENS_WIN);
 		else sb.append(Messages.PLAYER_QUITS);
-		
+
 		return sb.toString();
 	}
 }
-

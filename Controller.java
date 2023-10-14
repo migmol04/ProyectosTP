@@ -43,9 +43,9 @@ public class Controller {
 	 * Runs the game logic
 	 */
 	public void run() {
-		//TODO fill your code
+		
+		
 	}
-
 	/**
 	 * Draw / paint the game
 	 */

@@ -2,6 +2,7 @@ package tp1.logic;
 
 //import tp1.logic.gameobjects.DestroyerAlien;
 import tp1.logic.gameobjects.RegularAlien;
+
 //import tp1.logic.lists.DestroyerAlienList;
 import tp1.logic.lists.RegularAlienList;
 
@@ -43,9 +44,39 @@ public class AlienManager {
 	 * @return the initial list of destroyer aliens according to the current level
 	 */
 //	protected  DestroyerAlienList initializeDestroyerAliens() {
-//		//TODO fill your code
+//   for (int i = 0; i < level.getDestroyerAlienCount(); i++) {
+//       DestroyerAlien destroyerAlien = new DestroyerAlien(/* pass the appropriate arguments */);
+//       destroyerAlienList.add(destroyerAlien);
 //	}
-
+	
+	public int getRemainingAliens() {
+		return this.remainingAliens;
+	}
+	
+	public boolean allAlienDead() {
+		return getRemainingAliens() == 0;
+	}
+	
+	public boolean alienDead() {
+		return true;
+	}
+	
+	public boolean haveLanded() {
+		return true;
+	}
+	
+	public boolean finalRowReached() {
+		return true;
+	}
+	
+	public boolean readyToDescent() {
+		return true;
+	}
+	
+	public void decreaseOnBorder() {
+		
+	}
+	
 	
 	// CONTROL METHODS
 		

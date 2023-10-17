@@ -3,113 +3,113 @@ package tp1.logic.gameobjects;
 import tp1.logic.Game;
 import tp1.logic.Move;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
 /**
- * 
- * Class that represents the laser fired by {@link UCMShip}
- *
- */
+ 
+Class that represents the laser fired by UCMShip.*/
 public class UCMLaser {
+
+    public static final int ARMOR = 10;
+    public static final int DMG = 10;
+
+    private Move dir;
+    private Game game;
+    public Position pos;
+    private int life;
+
+    public UCMLaser(Move dir, Game game) {
+        this.dir = dir;
+        this.game = game;
+        this.life = 10;
+        this.pos = new Position(game.getUCMShip().getPosition().getX() , game.getUCMShip().getPosition().getY() - 1);
+        
+    }
+
+    public void onDelete() {
+        game.enableLaser();
+    }
+
+    public void automaticMove() {
+        performMovement(dir);
+        if (isOut()) {
+            die();
+        }
+    }
+
+    // PERFORM ATTACK METHODS
+    
+	public boolean isAlive() {
+    	return life > 0;
+    }
 	
-	//TODO fill your code
-	public static final int ARMOR = 10;
-	public static final int DMG = 10;
-	private Move dir;
-	private Game game;
-
-
-	/**
-	 *  Method called when the laser disappears from the board
-	 */
-	public void onDelete() {
-		game.enableLaser();
+	public int getLife() {
+		return this.life;
 	}
-
-	/**
-	 *  Implements the automatic movement of the laser	
-	 */
-	public void automaticMove () {
-		performMovement(dir);
-		if(isOut())
-			die();
-	}
-
 	
-	// PERFORM ATTACK METHODS
-	
-	
-	
-	
-	private void die() {
-		//TODO fill your code
+    public boolean isOnPosition(Position p) {
+		
+		return (this.pos.getX() == p.getX()) && (this.pos.getY() == p.getY());
+		
 	}
-
-	private boolean isOut() {
-		//TODO fill your code
-		return false;
-	}
-
-	private void performMovement(Move dir) {
-		//TODO fill your code
-	}
-
-	/**
-	 * Method that implements the attack by the laser to a regular alien.
-	 * It checks whether both objects are alive and in the same position.
-	 * If so call the "actual" attack method {@link weaponAttack}.
-	 * @param other the regular alien possibly under attack
-	 * @return <code>true</code> if the alien has been attacked by the laser.
-	 */
-	public boolean performAttack(RegularAlien other) {
-		//TODO fill your code
-		return false;
-	}
-
-	/**
-	 * Method that implements the attack by the laser to a destroyer alien.
-	 * It checks whether both objects are alive and in the same position.
-	 * If so call the "actual" attack method {@link weaponAttack}.
-	 * @param other the destroyer alien possibly under attack
-	 * @return <code>true</code> if the alien has been attacked by the laser.
-	 */
-
-	/*
-	public boolean performAttack(DestroyerAlien other) {
-		//TODO fill your code
-		return false;
-	}
-	*/
 	
-	//TODO fill your code
-
-
-	//ACTUAL ATTACK METHODS
+	public Position getPosition() {
+		 return this.pos;
+	}
 	
 
-	/**
-	 * 
-	 * @param other regular alien under attack by the laser
-	 * @return always returns <code>true</code>
-	 */
-	private boolean weaponAttack(RegularAlien other) {
-		return other.receiveAttack(this);	
-	}
+    private void die() {
+        game.enableLaser();
+    }
 
-	//TODO fill your code
+    private boolean isOut() {
+        return pos.getY() < 0 || pos.getY() >= Game.DIM_Y;
+    }
 
-
-	// RECEIVE ATTACK METHODS
+    private void performMovement(Move dir) {
+        int newX = pos.getX();
+        int newY = pos.getY() + 1;
+        pos = new Position(newX, newY);
+        dir= Move.UP;
+    }
+    
+    
+    public String getSymbol() {
+    	return Messages.LASER_SYMBOL;
+    }
+    
 	
-	/**
-	 * Method to implement the effect of bomb attack on a laser
-	 * @param weapon the received bomb
-	 * @return always returns <code>true</code>
-	 */
-	/*
-	public boolean receiveAttack(Bomb weapon) {
-		receiveDamage(weapon.getDamage());
-		return true;
-	}
-	*/
+	
+    /*public boolean performAttack(RegularAlien other) {
+        //no sé
+    }
 
+
+    public boolean performAttack(DestroyerAlien other) {
+        // Implementa la lógica para el ataque del láser a un alien destructor
+        //no sé
+
+        return false;
+    }
+
+*/
+    // ACTUAL ATTACK METHODS
+
+  /*  private boolean weaponAttack(RegularAlien other) {
+        //no sé
+
+        return other.receiveAttack(this);
+    }
+*/
+    // RECEIVE ATTACK METHODS
+
+/*
+    public boolean receiveAttack(Bomb weapon) {
+        // Implementa la lógica para el efecto de un ataque de bomba en el láser receiveDamage(weapon.getDamage());
+        //no sé
+
+        return true;
+    }
+
+*/
 }

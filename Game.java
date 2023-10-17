@@ -1,7 +1,9 @@
 package tp1.logic;
 
 import java.util.Random;
+
 import tp1.logic.gameobjects.*;
+import tp1.logic.lists.*;
 
 // TODO implementarlo
 public class Game {
@@ -12,6 +14,13 @@ public class Game {
 	private long seed;
 	private boolean end;
 	private UCMShip ucmShip;
+	private UCMLaser laser;
+	private RegularAlien alien;
+	private RegularAlien regularAlien;
+	private Move dir;
+	private AlienManager manager;
+	private RegularAlienList list;
+	private Position pos;
 	
 	private Game game;
 
@@ -22,7 +31,11 @@ public class Game {
 		this.seed = seed;
 		game = this;
 		ucmShip = new UCMShip(this);
-	}
+		laser = new UCMLaser(dir, this);
+		manager = new AlienManager(this, level);
+		list = new RegularAlienList(5);
+		alien = new RegularAlien(5, pos, 5, this, dir, 1, 100, manager);
+}
 	
 
 	public String stateToString() {
@@ -47,10 +60,23 @@ public class Game {
 		
 		        return ucmShip.getSymbol();
 		    }
+		    else if (laser.isOnPosition(pos)) {
+		    	return laser.getSymbol();
+		    }
+		    else if (laser.isOnPosition(pos)) {
+		    	return laser.getSymbol();
+		    }
+		    
+		    else if(alien.isOnPosition(pos)) {
+		    	        
+		    	return alien.getSymbol();
+		    	        
+		    }
 		    
 		    else {
 		    	return "";
 		    }
+		    
 	}
 
 	public boolean playerWin() {
@@ -76,6 +102,8 @@ public class Game {
 		//TODO fill your code
 		return null;
 	}
-
+    public UCMShip getUCMShip() {
+    	return this.ucmShip;
+    }
 
 }

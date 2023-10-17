@@ -47,7 +47,7 @@ public class UCMShip {
 	}
 	
 	public void recieveDamage() {
-		
+		this.life -= DMG;
 	}
 	
 	public void isOut() {
@@ -72,10 +72,10 @@ public class UCMShip {
 	
 	public String getInfo() {
 	   
-	    return "";
+	    return Messages.UCMSHIP_DESCRIPTION;
 	}
 	public String getDescription() {
-		return "";
+		return Messages.UCM_DESCRIPTION;
 	}
 	
 	public int getDamage() {
@@ -117,10 +117,10 @@ public class UCMShip {
 	       exito = true; // El movimiento se realizó con éxito
 	    }
 
-	   return exito; // El movimiento no se pudo realizar
+	   return exito; 
 	}
 	
-	private boolean isValidPosition(int x, int y) {
+	private boolean isValidPosition(int x, int y) {         //funcion agregada por nosotros
 		 int gameWidth = Game.DIM_X;
 		 int gameHeight = Game.DIM_Y;
 		 return x >= 0 && x < gameWidth && y >= 0 && y < gameHeight;

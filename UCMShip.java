@@ -32,6 +32,7 @@ public class UCMShip {
 	}
 	
 	public void die() {
+		player = null;
 
 	}
 	
@@ -50,12 +51,17 @@ public class UCMShip {
 		this.life -= DMG;
 	}
 	
-	public void isOut() {
-		
+	public boolean isOut() {
+	    int gameWidth = Game.DIM_X;
+	    int gameHeight = Game.DIM_Y;
+	    int shipX = pos.getX();
+	    int shipY = pos.getY();
+
+	    return shipX < 0 || shipX >= gameWidth || shipY < 0 || shipY >= gameHeight;
 	}
 	
 	public void performMovement() {
-		
+		//Lo hace Move
 	}
 	
 	public String getSymbol() {
@@ -104,6 +110,7 @@ public class UCMShip {
 	}
 	
 	public void recieveAttack() {
+		life -= DMG;
 		
 	}
 	

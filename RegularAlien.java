@@ -62,18 +62,20 @@ public class RegularAlien {
     public boolean isinFinalRow() {
         return pos.getY() >= Game.DIM_Y; 
     }
-
     private void performMovement(Move dir) {
+        Move newDir = dir; 
+        
         if (isInBorder()) {
             if (dir == Move.RIGHT) {
-                dir = Move.LEFT;
+                newDir = Move.LEFT;
             } else {
-                dir = Move.RIGHT;
+                newDir = Move.RIGHT;
             }
         }
-        pos = new Position(pos.getX() + dir.getX(), pos.getY() + dir.getY());
-        descent();
+        
+        pos = new Position(pos.getX() + newDir.getX(), pos.getY() + newDir.getY());
     }
+
 
     public String getSymbol() {
         return Messages.REGULAR_ALIEN_SYMBOL; 
@@ -104,15 +106,28 @@ public class RegularAlien {
     }
 
     public void automaticMove() {
-        performMovement(dir);
-        cyclesToMove--;
-        if (cyclesToMove == 0) {
-            descent();
-        }
+    	  performMovement(dir);
+          cyclesToMove--;
+
+          if (cyclesToMove == 0) {
+              // Cambia de dirección cuando los ciclosToMove llegan a 0
+              if (dir == Move.RIGHT) {
+                  dir = Move.LEFT;
+              } else {
+                  dir = Move.RIGHT;
+              }
+              cyclesToMove = speed; // Restablece los ciclosToMove a la velocidad del alien
+          }
+
+          if (pos.getY() >= Game.DIM_Y) {
+              onDelete(); 
+          }
     }
 
     private void descent() {
-        performMovement(Move.DOWN);
+    	performMovement(Move.DOWN);
+        
+       
     }
 
     private boolean isInBorder() {

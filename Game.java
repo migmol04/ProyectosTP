@@ -1,6 +1,7 @@
 package tp1.logic;
-
+import java.util.Scanner;
 import java.util.Random;
+import tp1.control.*;
 
 import tp1.logic.gameobjects.*;
 import tp1.logic.lists.*;
@@ -12,7 +13,6 @@ public class Game {
 	public static final int DIM_Y = 8;
 	private Level level;
 	private long seed;
-	private boolean end;
 	private UCMShip ucmShip;
 	private UCMLaser laser;
 	private RegularAlien alien;
@@ -21,6 +21,8 @@ public class Game {
 	private AlienManager manager;
 	private RegularAlienList list;
 	private Position pos;
+	private Controller c;
+	
 	
 	private Game game;
 
@@ -35,11 +37,13 @@ public class Game {
 		manager = new AlienManager(this, level);
 		list = new RegularAlienList(5);
 		alien = new RegularAlien(5, pos, 5, this, dir, 1, 100, manager);
+		Scanner sc = new Scanner(System.in);
+		c = new Controller(this, sc);
 }
 	
 
 	public String stateToString() {
-		return ucmShip.getInfo();
+		return "Hola";
 	}
 
 
@@ -54,30 +58,18 @@ public class Game {
 	}
 
 	public String positionToString(int col, int row) {
-
-		    Position pos = new Position(col, row);
-		    if (ucmShip.isOnPosition(pos)) {
-		
-		        return ucmShip.getSymbol();
-		    }
-		    else if (laser.isOnPosition(pos)) {
-		    	return laser.getSymbol();
-		    }
-		    else if (laser.isOnPosition(pos)) {
-		    	return laser.getSymbol();
-		    }
-		    
-		    else if(alien.isOnPosition(pos)) {
-		    	        
-		    	return alien.getSymbol();
-		    	        
-		    }
-		    
-		    else {
-		    	return "";
-		    }
-		    
+	    Position pos = new Position(col, row);
+	    if (ucmShip.isOnPosition(pos)) {
+	        return ucmShip.getSymbol();
+	    } else if (laser.isOnPosition(pos) && c.laserFired) {
+	        return laser.getSymbol();
+	    } else if (alien.isOnPosition(pos)) {
+	        return alien.getSymbol();
+	    } else {
+	        return "";
+	    }
 	}
+
 
 	public boolean playerWin() {
 		//TODO fill your code
@@ -99,8 +91,7 @@ public class Game {
 	}
 
 	public Level getLevel() {
-		//TODO fill your code
-		return null;
+		return this.level;
 	}
     public UCMShip getUCMShip() {
     	return this.ucmShip;

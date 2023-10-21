@@ -21,8 +21,7 @@ public class Controller {
 	private Move dir;
 	private Position pos;
 	private AlienManager manager;
-	public boolean laserFired = false;
-
+	
 	public Controller(Game game, Scanner scanner) {
 		this.game = game;
 		this.scanner = scanner;
@@ -52,59 +51,53 @@ public class Controller {
 	/**
 	 * Runs the game logic
 	 */
+    public boolean checkCommand(String[] words) {        //funcion agregada por mi
+    	boolean seCumple = false;
+    	if(words.length > 0) {
+    			seCumple = true;
+    		
+    	}
+    	return seCumple;
+    }
+    
+    
 	public void run() {
 	    boolean running = true;
 	    printGame();
+	  
+	    UCMShip ucmShip = game.getUCMShip();
 
-	    while (running) {
-	        String[] words = prompt();
-
-	        if (words.length > 0) {
-	            String command = words[0];
-	            if (command.equals("m")) {
-	                if (words.length > 1) {
-	                    String direction = words[1];
-	                    UCMShip ucmShip = game.getUCMShip();
-
-	                    // Handle movement commands
-	                    if (direction.equals("left")) {
-	                        ucmShip.move(Move.LEFT);
-	                        alien.automaticMove();
-	                        printGame();
-	                    } else if (direction.equals("right")) {
-	                        ucmShip.move(Move.RIGHT);
-	                        alien.automaticMove();
-	                        printGame();
-	                    } else if (direction.equals("rright")) {
-	                        ucmShip.move(Move.RRIGHT);
-	                        alien.automaticMove();
-	                        printGame();
-	                    } else if (direction.equals("lleft")) {
-	                        ucmShip.move(Move.LLEFT);
-	                        alien.automaticMove();
-	                        printGame();
-	                    } else if (direction.equals("up")) {
-	                        ucmShip.move(Move.UP);
-	                        alien.automaticMove();
-	                        printGame();
-	                    } else if (direction.equals("down")) {
-	                        ucmShip.move(Move.DOWN);
-	                        alien.automaticMove();
-	                        printGame();
-	                    }
-	                }
-	            }  else if (command.equals("s")) {
-	                // Handle the "s" command to shoot the laser
-	                if (!laserFired) {
-	                    UCMShip ucmShip = game.getUCMShip();
-	                    if (ucmShip.shootLaser()) {
-	                        // Create a new UCMLaser and perform its automatic movement
-	                        UCMLaser laser = new UCMLaser(Move.UP, game);
-	                        laserFired = true;  
-	                        printGame();
-	                    }
-	                }    }
-	        }
+	   while (running) {
+		   String[] words = prompt();
+	    	if(checkCommand(words)){
+	    		if(words[0].equals("m")) {
+	    			if(words[1].equals("left")) {
+	    				 ucmShip.move(Move.LEFT);
+	    			}
+	    			
+	    			else if(words[1].equals("lleft")) {
+	    				 ucmShip.move(Move.LLEFT);
+	    			}
+	    			
+                    else if(words[1].equals("right")) {
+                    	 ucmShip.move(Move.RIGHT);
+	    			}
+	    			
+                    else if(words[1].equals("rright")) {
+                    	 ucmShip.move(Move.RRIGHT);
+	    			}
+	    			
+	    		}
+	    		
+	    		else if(words[0].equals("s")) {
+	    			if(!ucmShip.shootLaser()) {
+	    				ucmShip.enableLaser();	
+	    			}
+	    			
+	    		}
+	    		game.getLaser().die();
+	    		printGame();
+	    	}
 	    }
 	}
 		

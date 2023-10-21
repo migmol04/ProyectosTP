@@ -17,6 +17,7 @@ public class UCMLaser {
     private Game game;
     public Position pos;
     private int life;
+    private UCMLaser laser;
 
     public UCMLaser(Move dir, Game game) {
         this.dir = dir;
@@ -58,15 +59,15 @@ public class UCMLaser {
 	}
 	
 
-    private void die() {
-        game.enableLaser();
+    public void die() {
+       this.laser = null;
     }
 
-    private boolean isOut() {
+    public boolean isOut() {
         return pos.getY() < 0 || pos.getY() >= Game.DIM_Y;
     }
 
-    private void performMovement(Move dir) {
+    public void performMovement(Move dir) {
         int newX = pos.getX();
         int newY = pos.getY() + 1;
         pos = new Position(newX, newY);

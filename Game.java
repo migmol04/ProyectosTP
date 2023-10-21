@@ -37,8 +37,7 @@ public class Game {
 		manager = new AlienManager(this, level);
 		list = new RegularAlienList(5);
 		alien = new RegularAlien(5, pos, 5, this, dir, 1, 100, manager);
-		Scanner sc = new Scanner(System.in);
-		c = new Controller(this, sc);
+		
 }
 	
 
@@ -61,7 +60,7 @@ public class Game {
 	    Position pos = new Position(col, row);
 	    if (ucmShip.isOnPosition(pos)) {
 	        return ucmShip.getSymbol();
-	    } else if (laser.isOnPosition(pos) && c.laserFired) {
+	    } else if (laser.isOnPosition(pos) && ucmShip.shootLaser()) {
 	        return laser.getSymbol();
 	    } else if (alien.isOnPosition(pos)) {
 	        return alien.getSymbol();
@@ -95,6 +94,10 @@ public class Game {
 	}
     public UCMShip getUCMShip() {
     	return this.ucmShip;
+    }
+    
+    public UCMLaser getLaser() {
+    	return this.laser;
     }
 
 }

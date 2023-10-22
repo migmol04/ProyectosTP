@@ -29,7 +29,7 @@ public class Controller {
 		pos = new Position(4, 4);
 		manager = new AlienManager(game, game.getLevel());
 		dir = Move.RIGHT;
-		alien = new RegularAlien(5, pos, 5, game, dir, 1, 100, manager);
+		alien = new RegularAlien(game, manager);
 
 	}
 
@@ -63,11 +63,12 @@ public class Controller {
     
 	public void run() {
 	    boolean running = true;
-	    printGame();
+	    
 	  
 	    UCMShip ucmShip = game.getUCMShip();
 
 	   while (running) {
+		   printGame();
 		   String[] words = prompt();
 	    	if(checkCommand(words)){
 	    		if(words[0].equals("m")) {
@@ -90,13 +91,14 @@ public class Controller {
 	    		}
 	    		
 	    		else if(words[0].equals("s")) {
-	    			if(!ucmShip.shootLaser()) {
-	    				ucmShip.enableLaser();	
+	    			if(!game.shootLaser()) {
+	    				game.enableLaser();	
 	    			}
 	    			
 	    		}
-	    		game.getLaser().die();
-	    		printGame();
+	    		game.update();
+			    game.debugInfo();
+			   
 	    	}
 	    }
 	}

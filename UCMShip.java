@@ -100,14 +100,22 @@ public class UCMShip {
 		
 	}
 	
-	public void enableLaser() {
-		this.canShoot = true;
-		
-	}
-	
-	public boolean shootLaser() {
-		return canShoot;
-	}
+	 public void enableLaser() {
+	        this.canShoot = !this.canShoot;
+	    }
+	    
+	    public boolean shootLaser() {
+	        boolean shooted = false;
+	        
+	        if (!canShoot) {
+	            enableLaser();
+	            shooted = true;
+	        }
+	        
+	        return shooted;
+	    }
+	    
+
 	
 	public void recieveAttack() {
 		life -= DMG;

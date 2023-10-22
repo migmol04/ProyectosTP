@@ -19,30 +19,35 @@ public class UCMLaser {
     private int life;
     private UCMLaser laser;
 
-    public UCMLaser(Move dir, Game game) {
-        this.dir = dir;
+    public UCMLaser(Game game, Position pos) {
         this.game = game;
-        this.life = 10;
-        this.pos = new Position(game.getUCMShip().getPosition().getX() , game.getUCMShip().getPosition().getY() - 1);
-        
+        this.pos = pos;
+        this.life = 1;
+        this.dir = Move.UP;
     }
+    
 
     public void onDelete() {
         game.enableLaser();
     }
 
     public void automaticMove() {
-        performMovement(dir);
-        if (isOut()) {
-            die();
-        }
+        pos = new Position(pos.getX(), pos.getY() + dir.getY());
     }
 
     // PERFORM ATTACK METHODS
     
-	public boolean isAlive() {
-    	return life > 0;
+
+    public boolean isAlive() {
+        boolean alive = true;
+        
+        if (this.life == 0) {
+           alive = false; 
+        }
+        
+        return alive;
     }
+    
 	
 	public int getLife() {
 		return this.life;
@@ -50,7 +55,7 @@ public class UCMLaser {
 	
     public boolean isOnPosition(Position p) {
 		
-		return (this.pos.getX() == p.getX()) && (this.pos.getY() == p.getY());
+		return (this.pos.getX() == p.getX()) && (this.pos.getY() == p.getY())&& (isAlive());
 		
 	}
 	
@@ -59,19 +64,20 @@ public class UCMLaser {
 	}
 	
 
-    public void die() {
-       this.laser = null;
+	public void die() {
+        this.life = 0;
     }
 
     public boolean isOut() {
         return pos.getY() < 0 || pos.getY() >= Game.DIM_Y;
     }
 
-    public void performMovement(Move dir) {
-        int newX = pos.getX();
-        int newY = pos.getY() + 1;
-        pos = new Position(newX, newY);
-        dir= Move.UP;
+    public void performMovement() {
+        automaticMove();
+        
+        if (isOut()) {
+            die();
+        }
     }
     
     

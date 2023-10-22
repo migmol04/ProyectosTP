@@ -20,27 +20,34 @@ public class RegularAlien {
     private int speed;
     private AlienManager alienManager;
 
-    public RegularAlien(int armor, Position pos, int life, Game game, Move dir, int cyclesToMove, int speed, AlienManager alienManager) {
-        this.armor = armor;
+    public RegularAlien(Game game, AlienManager alienManager) {
+        this.armor = 3;
         this.pos = new Position(4,4);
-        this.life = life;
+        this.life = 10;
         this.game = game;
-        this.dir = dir;
-        this.cyclesToMove = cyclesToMove;
-        this.speed = speed;
+        this.dir = Move.LEFT;
+        this.cyclesToMove = 4;
+        this.speed = 1;
         this.alienManager = alienManager;
     }
 
     public boolean isAlive() {
-        return life > 0;
+        boolean alive = true;
+        
+        if (this.life == 0) {
+           alive = false; 
+        }
+        
+        return alive;
     }
+    
 
     public int getLife() {
-        return life;
+        return this.life;
     }
 
     public void die() {
-        life = 0;
+        this.life = 0;
     }
 
     public boolean isOnPosition(Position position) {
@@ -48,7 +55,7 @@ public class RegularAlien {
     }
 
     public Position getPosition() {
-        return pos;
+        return this.pos;
     }
 
     public void receiveDamage(int damage) {
@@ -56,7 +63,7 @@ public class RegularAlien {
     }
 
     public boolean isOut() {
-        return pos.getY() < 0 /*se podria quitar?*/ || pos.getX() < 0 || pos.getX() >= Game.DIM_X; 
+        return pos.getY() < 0 || pos.getX() < 0 || pos.getX() >= Game.DIM_X; 
     }
 
     public boolean isinFinalRow() {
@@ -94,15 +101,15 @@ public class RegularAlien {
     }
 
     public int getDamage() {
-        return armor; // Reemplaza con el valor correcto
+        return armor; //
     }
 
     public void computerAction() {
-        // Implementa la lógica para la acción del alien
+     
     }
 
     public void onDelete() {
-        // Implementa lo que se debe hacer cuando se elimina el alien
+       
     }
 
     public void automaticMove() {
@@ -110,13 +117,12 @@ public class RegularAlien {
           cyclesToMove--;
 
           if (cyclesToMove == 0) {
-              // Cambia de dirección cuando los ciclosToMove llegan a 0
               if (dir == Move.RIGHT) {
                   dir = Move.LEFT;
               } else {
                   dir = Move.RIGHT;
               }
-              cyclesToMove = speed; // Restablece los ciclosToMove a la velocidad del alien
+              cyclesToMove = speed; 
           }
 
           if (pos.getY() >= Game.DIM_Y) {
@@ -135,10 +141,11 @@ public class RegularAlien {
     }
 
     public boolean receiveAttack(UCMLaser laser) {
+    	boolean disp = false;
         if (pos.equals(laser.pos)) {
             life -= UCMLaser.DMG;
-            return true;
+            disp = true;
         }
-        return false; 
+        return disp; 
     }
 }

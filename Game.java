@@ -16,14 +16,8 @@ public class Game {
 	private UCMShip ucmShip;
 	private UCMLaser laser;
 	private RegularAlien alien;
-	private RegularAlien regularAlien;
-	private Move dir;
 	private AlienManager manager;
 	private RegularAlienList list;
-	private Position pos;
-	private Controller c;
-	
-	
 	private Game game;
 
 	//TODO fill your code
@@ -33,10 +27,11 @@ public class Game {
 		this.seed = seed;
 		game = this;
 		ucmShip = new UCMShip(this);
-		laser = new UCMLaser(dir, this);
+		this.laser = new UCMLaser(this, ucmShip.getPosition());
+		this.laser.die();
 		manager = new AlienManager(this, level);
 		list = new RegularAlienList(5);
-		alien = new RegularAlien(5, pos, 5, this, dir, 1, 100, manager);
+		alien = new RegularAlien(this, manager);
 		
 }
 	
@@ -60,7 +55,7 @@ public class Game {
 	    Position pos = new Position(col, row);
 	    if (ucmShip.isOnPosition(pos)) {
 	        return ucmShip.getSymbol();
-	    } else if (laser.isOnPosition(pos) && ucmShip.shootLaser()) {
+	    } else if (laser.isOnPosition(pos)) {
 	        return laser.getSymbol();
 	    } else if (alien.isOnPosition(pos)) {
 	        return alien.getSymbol();
@@ -81,8 +76,9 @@ public class Game {
 	}
 
 	public void enableLaser() {
-		//TODO fill your code		
+		ucmShip.enableLaser();		
 	}
+	
 
 	public Random getRandom() {
 		//TODO fill your code
@@ -92,12 +88,37 @@ public class Game {
 	public Level getLevel() {
 		return this.level;
 	}
-    public UCMShip getUCMShip() {
-    	return this.ucmShip;
-    }
-    
-    public UCMLaser getLaser() {
-    	return this.laser;
-    }
-
+	
+	 private void laserAutomaticMoves() {
+	        laser.performMovement();
+	    }
+	    
+	    public void update() {
+	        if (laser.isAlive()) {
+	            laserAutomaticMoves();
+	        } else {
+	            this.ucmShip.enableLaser();
+	        }
+	    }
+	    
+	    public boolean shootLaser() {
+	        boolean shooted = false;
+	        
+	        if (ucmShip.shootLaser()) {
+	            this.laser = new UCMLaser(this, ucmShip.getPosition());          // creates new laser
+	            shooted = true;
+	        }
+	        
+	        return shooted;
+	    }
+	    
+	    public void debugInfo() {
+	        System.out.println("Nave en: (" + this.ucmShip.getPosition().getX() + ","  + this.ucmShip.getPosition().getY() + ")");
+	        if (this.laser.isAlive()) System.out.println("Laser en: (" + this.laser.getPosition().getX() + ","  + this.laser.getPosition().getY() + ")");
+	    }
+	    
+	    public UCMShip getUCMShip() {
+	    	return this.ucmShip;
+	    }
+   
 }

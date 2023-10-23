@@ -99,6 +99,10 @@ public class Game {
 	        } else {
 	            this.ucmShip.enableLaser();
 	        }
+	        
+	        if(alien.isAlive()) {
+	        	alien.automaticMove();
+	        }
 	    }
 	    
 	    public boolean shootLaser() {

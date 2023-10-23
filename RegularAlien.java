@@ -11,43 +11,35 @@ import tp1.view.Messages;
  */
 public class RegularAlien {
 
-    private int armor;
-    private Position pos;
-    private int life;
-    private Game game;
-    private Move dir;
-    private int cyclesToMove;
-    private int speed;
-    private AlienManager alienManager;
+	public int armor = 2;
+    public Position pos;
+    public int life;
+    public Game game;
+    public Move dir;
+    public int cyclesToMove;
+    public int speed;
+    public AlienManager alienManager;
 
-    public RegularAlien(Game game, AlienManager alienManager) {
-        this.armor = 3;
+    public RegularAlien(Game game, AlienManager manager) {
+        this.life = armor;
         this.pos = new Position(4,4);
-        this.life = 10;
         this.game = game;
         this.dir = Move.LEFT;
         this.cyclesToMove = 4;
         this.speed = 1;
-        this.alienManager = alienManager;
+        this.alienManager = manager;
     }
 
     public boolean isAlive() {
-        boolean alive = true;
-        
-        if (this.life == 0) {
-           alive = false; 
-        }
-        
-        return alive;
+        return getLife() > 0;
     }
-    
 
     public int getLife() {
-        return this.life;
+        return life;
     }
 
     public void die() {
-        this.life = 0;
+        life = 0;
     }
 
     public boolean isOnPosition(Position position) {
@@ -55,41 +47,32 @@ public class RegularAlien {
     }
 
     public Position getPosition() {
-        return this.pos;
+        return pos;
     }
 
-    public void receiveDamage(int damage) {
-        life -= damage;
+    public void receiveDamage() {
+        life -= getDamage();
     }
 
     public boolean isOut() {
-        return pos.getY() < 0 || pos.getX() < 0 || pos.getX() >= Game.DIM_X; 
+        return pos.getY() < 0 /*se podria quitar?*/ || pos.getX() < 0 || pos.getX() >= Game.DIM_X; 
     }
 
     public boolean isinFinalRow() {
         return pos.getY() >= Game.DIM_Y; 
     }
+
     private void performMovement(Move dir) {
-        Move newDir = dir; 
-        
-        if (isInBorder()) {
-            if (dir == Move.RIGHT) {
-                newDir = Move.LEFT;
-            } else {
-                newDir = Move.RIGHT;
-            }
-        }
-        
-        pos = new Position(pos.getX() + newDir.getX(), pos.getY() + newDir.getY());
+    	
+        pos = new Position(pos.getX() + dir.getX(), pos.getY() + dir.getY());
     }
 
-
     public String getSymbol() {
-        return Messages.REGULAR_ALIEN_SYMBOL; 
+    	return Messages.REGULAR_ALIEN_SYMBOL + "[" + life + "]";
     }
 
     public String toString() {
-        return "";
+    	return getDescription()+ ":" + getInfo();
     }
 
     public String getInfo() {
@@ -101,51 +84,57 @@ public class RegularAlien {
     }
 
     public int getDamage() {
-        return armor; //
+        return 1; 
     }
 
     public void computerAction() {
-     
+      
     }
 
     public void onDelete() {
-       
+    	die();
     }
+    
+    private boolean onBorder = false;
 
     public void automaticMove() {
-    	  performMovement(dir);
-          cyclesToMove--;
 
-          if (cyclesToMove == 0) {
-              if (dir == Move.RIGHT) {
-                  dir = Move.LEFT;
-              } else {
-                  dir = Move.RIGHT;
-              }
-              cyclesToMove = speed; 
-          }
-
-          if (pos.getY() >= Game.DIM_Y) {
-              onDelete(); 
-          }
-    }
-
-    private void descent() {
-    	performMovement(Move.DOWN);
-        
        
+        cyclesToMove--;
+        
+
+        if (isInBorder() && !onBorder) {
+        	descent();
+        	onBorder = true;
+
+            if (dir == Move.RIGHT) {
+                dir = Move.LEFT;
+            } else {
+                dir = Move.RIGHT;
+            }
+        }
+    
+        if (cyclesToMove == 0) {
+            performMovement(dir);
+            onBorder=false;
+            cyclesToMove = 4; 
+        }
+    }
+    
+    private void descent() {
+        performMovement(Move.DOWN);
+  
     }
 
-    private boolean isInBorder() {
+    public boolean isInBorder() {
         return pos.getX() == 0 || pos.getX() >= Game.DIM_X - 1;
     }
 
     public boolean receiveAttack(UCMLaser laser) {
-    	boolean disp = false;
         if (pos.equals(laser.pos)) {
-            life -= UCMLaser.DMG;
-            disp = true;
+            return true;
         }
-        return disp; 
+        return false; 
     }
 }
+

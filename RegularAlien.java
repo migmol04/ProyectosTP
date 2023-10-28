@@ -19,10 +19,12 @@ public class RegularAlien {
     public int cyclesToMove;
     public int speed;
     public AlienManager alienManager;
-
-    public RegularAlien(Game game, AlienManager manager) {
+    private boolean onBorder = false;
+    
+    
+    public RegularAlien(Game game, AlienManager manager, Position pos) {
         this.life = armor;
-        this.pos = new Position(4,4);
+        this.pos = pos;
         this.game = game;
         this.dir = Move.LEFT;
         this.cyclesToMove = 4;
@@ -95,11 +97,9 @@ public class RegularAlien {
     	die();
     }
     
-    private boolean onBorder = false;
-
     public void automaticMove() {
 
-       
+        
         cyclesToMove--;
         
 

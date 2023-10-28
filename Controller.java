@@ -29,7 +29,7 @@ public class Controller {
 		pos = new Position(4, 4);
 		manager = new AlienManager(game, game.getLevel());
 		dir = Move.RIGHT;
-		alien = new RegularAlien(game, manager);
+		//alien = new RegularAlien(game, manager);
 
 	}
 

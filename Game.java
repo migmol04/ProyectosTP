@@ -20,6 +20,7 @@ public class Game {
 	private RegularAlienList list;
 	private Game game;
 
+
 	//TODO fill your code
 
 	public Game(Level level, long seed) {
@@ -31,8 +32,10 @@ public class Game {
 		this.laser.die();
 		manager = new AlienManager(this, level);
 		list = new RegularAlienList(5);
-		alien = new RegularAlien(this, manager);
-		
+	    for (int i = 0; i < 5; i++) {
+	    	 Position alienPosition = new Position(i + 2, 3);
+	        alien = new RegularAlien(this, manager, alienPosition);
+	        list.add(alien);}
 }
 	
 
@@ -60,8 +63,13 @@ public class Game {
 	    } else if (alien.isOnPosition(pos)) {
 	        return alien.getSymbol();
 	    } else {
-	        return "";
+	    	for (int i = 0; i < list.size(); i++) {
+	            if (list.getObjectInPosition(i).isOnPosition(pos)) {
+	                return list.getObjectInPosition(i).getSymbol();
+	            }
+	        }
 	    }
+	    return "";
 	}
 
 
@@ -93,8 +101,8 @@ public class Game {
 	        laser.performMovement();
 	    }
 	    
-	    public void update() {
-	        if (laser.isAlive()) {
+	 public void update() {
+		 if (laser.isAlive()) {
 	            laserAutomaticMoves();
 	        } else {
 	            this.ucmShip.enableLaser();
@@ -103,7 +111,41 @@ public class Game {
 	        if(alien.isAlive()) {
 	        	alien.automaticMove();
 	        }
-	    }
+		 
+		 
+		    // Mover el láser
+		 /*   if (laser.isAlive()) {
+		        laser.performMovement();
+		        // Comprobar colisiones con aliens
+		        for (int i = 0; i < list.size(); i++) {
+		            RegularAlien alien = list.getObjectInPosition(i);
+		            if (alien != null && laser.getPosition().equals(alien.getPosition())) {
+		                alien.receiveDamage();
+		                laser.die();  // El láser desaparece después de golpear a un alien
+		                break;
+		            }
+		        }
+		    } else {
+		        this.ucmShip.enableLaser();
+		    }
+
+		    // Mover los aliens
+		    if(alien.isAlive()) {
+		        list.automaticMove();
+		    }
+
+		    // Eliminar aliens muertos
+		    list.removeDead();
+
+		    // Comprobar condiciones de victoria/derrota
+		    if (list.size() == 0) {
+		        System.out.println("¡Has ganado el juego!");
+		    } else if (ucmShip.isAlive() == false) {
+		        System.out.println("Has perdido el juego.");
+		    }
+		    */
+		}
+
 	    
 	    public boolean shootLaser() {
 	        boolean shooted = false;

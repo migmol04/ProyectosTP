@@ -121,7 +121,7 @@ public class RegularAlien {
         }
     }
     
-    private void descent() {
+    public void descent() {
         performMovement(Move.DOWN);
   
     }

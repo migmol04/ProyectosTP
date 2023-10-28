@@ -98,20 +98,10 @@ public class RegularAlien {
     }
     
     public void automaticMove() {
-
-        
         cyclesToMove--;
-        
-
         if (isInBorder() && !onBorder) {
         	descent();
         	onBorder = true;
-
-            if (dir == Move.RIGHT) {
-                dir = Move.LEFT;
-            } else {
-                dir = Move.RIGHT;
-            }
         }
     
         if (cyclesToMove == 0) {
@@ -123,6 +113,11 @@ public class RegularAlien {
     
     public void descent() {
         performMovement(Move.DOWN);
+        if (dir == Move.RIGHT) {
+            dir = Move.LEFT;
+        } else {
+            dir = Move.RIGHT;
+        }
   
     }
 

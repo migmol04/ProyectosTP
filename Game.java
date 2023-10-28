@@ -109,11 +109,13 @@ public class Game {
 	        }
 	        
 	        if(alien.isAlive()) {
-	        	alien.automaticMove();
+	        	if(!manager.readyToDescent()) {
+	        		list.automaticMove();
+	        	}
 	        }
 		 
 		 
-		    // Mover el láser
+		    // Mover el láer
 		 /*   if (laser.isAlive()) {
 		        laser.performMovement();
 		        // Comprobar colisiones con aliens

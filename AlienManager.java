@@ -90,17 +90,17 @@ public class AlienManager {
 	public boolean readyToDescent() {
 		boolean desc = false;
 		if(isInBorder()) {
-			for(int i = 0; i < list.size(); i++) {
-				 RegularAlien alien = list.getObjectInPosition(i);
-				 alien.descent();
-				 desc = true;
-			}
+			decreaseOnBorder();
+			desc = true;
 		}
 		return desc;
 	}
 	
 	public void decreaseOnBorder() {
-		
+		for(int i = 0; i<list.size(); i++) {
+			 RegularAlien alien = list.getObjectInPosition(i);
+			 alien.descent();
+		}
 	}
 	
 	

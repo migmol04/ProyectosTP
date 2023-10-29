@@ -30,7 +30,7 @@ public class Game {
 		this.laser.die();
 		list = new RegularAlienList(5);
 	    for (int i = 0; i < 5; i++) {
-	    	 Position alienPosition = new Position(i, 0);
+	    	 Position alienPosition = new Position(i + 3, 3);
 	        alien = new RegularAlien(this, manager, alienPosition);
 	        list.add(alien);}
 	    

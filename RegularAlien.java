@@ -108,7 +108,7 @@ public class RegularAlien {
     
     public void descent() {
         performMovement(Move.DOWN);
-        if (isInBorder() && !onBorder) {
+        if (!onBorder) {
         	onBorder = true;
 
             if (dir == Move.RIGHT) {

@@ -95,15 +95,18 @@ public class AlienManager {
 	
 	public boolean readyToDescent() {
 		boolean desc = false;
-		for(int i = 0; i < list.size(); i++) {
-			if(isInBorder()) {
-				System.out.println("Joder");
+			if(isInBorder() && onBorder) {
 				decreaseOnBorder();
 				desc = true;
+				onBorder = false;
 			}
-		}
+			else {
+				list.automaticMove();
+			}
+				
 		return desc;
 	}
+	
 	
 	public void decreaseOnBorder() {
 		for(int i = 0; i<list.size(); i++) {
@@ -131,6 +134,7 @@ public class AlienManager {
 		boolean esBorde = false;
 		if(shipOnBorder()) {
 			esBorde = true;
+			onBorder = true;
 		}
 		return esBorde;
 	}

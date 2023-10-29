@@ -95,15 +95,17 @@ public class AlienManager {
 	
 	public boolean readyToDescent() {
 		boolean desc = false;
-			if(isInBorder() && onBorder) {
+		if(isInBorder()) {
+			if(onBorder) {
 				decreaseOnBorder();
 				desc = true;
 				onBorder = false;
 			}
-			else {
-				list.automaticMove();
+			else
+			{
+				onBorder = !onBorder;
 			}
-				
+		}
 		return desc;
 	}
 	
@@ -114,6 +116,7 @@ public class AlienManager {
 			 alien.descent();
 			
 		}
+		onBorder = true;
 	}
 	
 	// CONTROL METHODS

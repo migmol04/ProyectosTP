@@ -24,11 +24,11 @@ public class AlienManager {
 	private boolean onBorder = false;
 	private RegularAlienList list;
 	
-	public AlienManager(Game game, Level level) {
+	public AlienManager(Game game, Level level, RegularAlienList list) {
 		this.level = level;
 		this.game = game;
 		this.remainingAliens = 5;
-		list = new RegularAlienList(5);
+		this.list = list;
 	}
 		
 	// INITIALIZER METHODS
@@ -37,14 +37,15 @@ public class AlienManager {
 	 * Initializes the list of regular aliens
 	 * @return the initial list of regular aliens according to the current level
 	 */
-	protected RegularAlienList initializeRegularAliens() {
-		list = new RegularAlienList(level.getNumRegularAliens());
-	    for (int i = 0; i < list.size(); i++) {
-	    	Position alienPosition = new Position(i + 2, 3);
-	        RegularAlien alien = new RegularAlien(game, this, alienPosition);
-	        list.add(alien);}
-		return list;
-	}
+	//protected RegularAlienList initializeRegularAliens() {
+		//list = new RegularAlienList(level.getNumRegularAliens());
+	    //for (int i = 0; i < list.size(); i++) {
+	    	//Position alienPosition = new Position(i + 2, 3);
+	        //RegularAlien alien = new RegularAlien(game, this, alienPosition);
+	        //list.add(alien);}
+		//return list;
+	//}
+
 
 	/**
 	 * Initializes the list of destroyer aliens
@@ -94,9 +95,12 @@ public class AlienManager {
 	
 	public boolean readyToDescent() {
 		boolean desc = false;
-		if(isInBorder()) {
-			decreaseOnBorder();
-			desc = true;
+		for(int i = 0; i < list.size(); i++) {
+			if(isInBorder()) {
+				System.out.println("Joder");
+				decreaseOnBorder();
+				desc = true;
+			}
 		}
 		return desc;
 	}
@@ -113,18 +117,14 @@ public class AlienManager {
 		
 	public boolean shipOnBorder() {
 		boolean esBor = false;
-	    for (int i = 0; i < list.size() && shipsOnBorder == 1; i++) {
+	    for (int i = 0; i < list.size() && !esBor; i++) {
 	    	 RegularAlien alien = list.getObjectInPosition(i);
 	    	 Position position = alien.getPosition();
-
-	        if (position.getX() == 0 || position.getX() == game.DIM_X - 1) {
-	           esBor = true;;
-	           shipsOnBorder++;
+	        if (position.getX() == 0 || position.getX() == Game.DIM_X-1) {
+	           esBor = true;
 	        }
 	    }
-
 	    return esBor;
-		
 	}
 
 	public boolean isInBorder() {

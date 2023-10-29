@@ -27,7 +27,6 @@ public class Controller {
 		this.scanner = scanner;
 		printer = new GamePrinter(game);
 		pos = new Position(4, 4);
-		manager = new AlienManager(game, game.getLevel());
 		dir = Move.RIGHT;
 		//alien = new RegularAlien(game, manager);
 

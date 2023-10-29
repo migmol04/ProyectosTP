@@ -18,7 +18,6 @@ public class Game {
 	private RegularAlien alien;
 	private AlienManager manager;
 	private RegularAlienList list;
-	private Game game;
 
 
 	//TODO fill your code
@@ -26,11 +25,16 @@ public class Game {
 	public Game(Level level, long seed) {
 		this.level = level;
 		this.seed = seed;
-		game = this;
 		ucmShip = new UCMShip(this);
 		this.laser = new UCMLaser(this, ucmShip.getPosition());
 		this.laser.die();
-		manager = new AlienManager(this, level);
+		list = new RegularAlienList(5);
+	    for (int i = 0; i < 5; i++) {
+	    	 Position alienPosition = new Position(i, 0);
+	        alien = new RegularAlien(this, manager, alienPosition);
+	        list.add(alien);}
+	    
+	    manager = new AlienManager(this, level, list);
 }
 	
 
@@ -97,18 +101,15 @@ public class Game {
 	    }
 	    
 	 public void update() {
-		
 		 if (laser.isAlive()) {
 	            laserAutomaticMoves();
 	        } else {
 	            this.ucmShip.enableLaser();
 	        }
 	        
-	        if(alien.isAlive()) {
-	        	if(!manager.readyToDescent()) {
-	        		list.automaticMove();
-	        	}
-	        }
+	       if(!manager.readyToDescent()) {
+	    	   list.automaticMove();
+	       }
 		 
 		 
 		    // Mover el láer
@@ -157,8 +158,8 @@ public class Game {
 	    }
 	    
 	    public void debugInfo() {
-	    	RegularAlien alien = list.getObjectInPosition(2);
-	    	 System.out.println(alien.getPosition().getX() + " " + alien.getPosition().getX());
+	    	RegularAlien alien = list.getObjectInPosition(0);
+	    	 System.out.println(alien.getPosition().getX() + " " + alien.getPosition().getY());
 	    }
 	    
 	    public UCMShip getUCMShip() {

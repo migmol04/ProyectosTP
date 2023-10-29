@@ -19,11 +19,11 @@ public class AlienManager {
 	private Game game;
 	private int remainingAliens;
 	
-	private boolean squadInFinalRow;
-	private int shipsOnBorder;
-	private boolean onBorder;
+	private boolean squadInFinalRow = false;
+	private int shipsOnBorder = 0;
+	private boolean onBorder = false;
 	private RegularAlienList list;
-
+	
 	public AlienManager(Game game, Level level) {
 		this.level = level;
 		this.game = game;
@@ -38,8 +38,12 @@ public class AlienManager {
 	 * @return the initial list of regular aliens according to the current level
 	 */
 	protected RegularAlienList initializeRegularAliens() {
-		//TODO fill your code
-		return null;
+		list = new RegularAlienList(level.getNumRegularAliens());
+	    for (int i = 0; i < list.size(); i++) {
+	    	Position alienPosition = new Position(i + 2, 3);
+	        RegularAlien alien = new RegularAlien(game, this, alienPosition);
+	        list.add(alien);}
+		return list;
 	}
 
 	/**
@@ -87,6 +91,7 @@ public class AlienManager {
 		return finalRow;
 	}
 	
+	
 	public boolean readyToDescent() {
 		boolean desc = false;
 		if(isInBorder()) {
@@ -100,20 +105,21 @@ public class AlienManager {
 		for(int i = 0; i<list.size(); i++) {
 			 RegularAlien alien = list.getObjectInPosition(i);
 			 alien.descent();
+			
 		}
 	}
-	
 	
 	// CONTROL METHODS
 		
 	public boolean shipOnBorder() {
 		boolean esBor = false;
-	    for (int i = 0; i < list.size(); i++) {
+	    for (int i = 0; i < list.size() && shipsOnBorder == 1; i++) {
 	    	 RegularAlien alien = list.getObjectInPosition(i);
 	    	 Position position = alien.getPosition();
 
 	        if (position.getX() == 0 || position.getX() == game.DIM_X - 1) {
 	           esBor = true;;
+	           shipsOnBorder++;
 	        }
 	    }
 

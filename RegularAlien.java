@@ -20,7 +20,10 @@ public class RegularAlien {
     public int speed;
     public AlienManager alienManager;
     private boolean onBorder = false;
-    
+    private static boolean anyAlienOnBorder = false;
+    private static boolean shouldChangeDirection = false;
+    private static boolean hasDescended = false;
+
     
     public RegularAlien(Game game, AlienManager manager, Position pos) {
         this.life = armor;
@@ -57,7 +60,7 @@ public class RegularAlien {
     }
 
     public boolean isOut() {
-        return pos.getY() < 0 /*se podria quitar?*/ || pos.getX() < 0 || pos.getX() >= Game.DIM_X; 
+        return pos.getY() < 0  || pos.getX() < 0 || pos.getX() >= Game.DIM_X; 
     }
 
     public boolean isinFinalRow() {
@@ -99,28 +102,33 @@ public class RegularAlien {
     
     public void automaticMove() {
         cyclesToMove--;
-        if (isInBorder() && !onBorder) {
-        	descent();
-        	onBorder = true;
-        }
-    
+
         if (cyclesToMove == 0) {
-            performMovement(dir);
-            onBorder=false;
-            cyclesToMove = 4; 
+            if (isInBorder() && !hasDescended) {
+                shouldChangeDirection = true;
+            }
+            if (shouldChangeDirection) {
+                descent();
+                onBorder = true;
+                hasDescended = true;
+            } else {
+                performMovement(dir);
+            }
+            cyclesToMove = 4;
         }
     }
-    
+
     public void descent() {
         performMovement(Move.DOWN);
+        onBorder = true; 
+        shouldChangeDirection = false;
         if (dir == Move.RIGHT) {
             dir = Move.LEFT;
         } else {
             dir = Move.RIGHT;
         }
-  
     }
-
+    
     public boolean isInBorder() {
         return pos.getX() == 0 || pos.getX() >= Game.DIM_X - 1;
     }

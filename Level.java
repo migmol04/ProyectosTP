@@ -38,6 +38,66 @@ public enum Level {
 		return ufoFrequency;
 	}
 	
+	
+	public int getNumRegularAliens() {
+
+		int num = 0;
+
+		if (this == EASY)
+		{
+			num = 4;
+		}
+		else if (this == HARD)
+		{
+			num = 8;
+		}
+		else if (this == INSANE)
+		{
+			num = 8;
+		}
+		
+		return num;
+	}
+	
+	public int getNumDestroyerAliens() {
+
+		int num = 0;
+
+		if (this == EASY)
+		{
+			num = 2;
+		}
+		else if (this == HARD)
+		{
+			num = 2;
+		}
+		else if (this == INSANE)
+		{
+			num = 4;
+		}
+		
+		return num;
+	}
+	
+	public int getSpeed() {
+
+		int ciclos = 0;
+
+		if (this == EASY)
+		{
+			ciclos = 3;
+		}
+		else if (this == HARD)
+		{
+			ciclos = 2;
+		}
+		else if (this == INSANE)
+		{
+			ciclos = 1;
+		}
+		
+		return ciclos;
+	}
 
 	/**
 	 * Parse a string and return any matching level

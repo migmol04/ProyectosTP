@@ -31,11 +31,6 @@ public class Game {
 		this.laser = new UCMLaser(this, ucmShip.getPosition());
 		this.laser.die();
 		manager = new AlienManager(this, level);
-		list = new RegularAlienList(5);
-	    for (int i = 0; i < 5; i++) {
-	    	 Position alienPosition = new Position(i + 2, 3);
-	        alien = new RegularAlien(this, manager, alienPosition);
-	        list.add(alien);}
 }
 	
 
@@ -102,6 +97,7 @@ public class Game {
 	    }
 	    
 	 public void update() {
+		
 		 if (laser.isAlive()) {
 	            laserAutomaticMoves();
 	        } else {
@@ -161,8 +157,8 @@ public class Game {
 	    }
 	    
 	    public void debugInfo() {
-	        System.out.println("Nave en: (" + this.ucmShip.getPosition().getX() + ","  + this.ucmShip.getPosition().getY() + ")");
-	        if (this.laser.isAlive()) System.out.println("Laser en: (" + this.laser.getPosition().getX() + ","  + this.laser.getPosition().getY() + ")");
+	    	RegularAlien alien = list.getObjectInPosition(2);
+	    	 System.out.println(alien.getPosition().getX() + " " + alien.getPosition().getX());
 	    }
 	    
 	    public UCMShip getUCMShip() {

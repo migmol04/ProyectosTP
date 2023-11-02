@@ -11,25 +11,24 @@ import tp1.view.Messages;
  */
 public class RegularAlien {
 
-	public int armor = 2;
+	public static final int ARMOR = 2;
     public Position pos;
     public int life;
     public Game game;
     public Move dir;
     public int cyclesToMove;
     public int speed;
-    public AlienManager alienManager;
+    public AlienManager manager;
     private boolean onBorder = false;
- 
     
     public RegularAlien(Game game, AlienManager manager, Position pos) {
-        this.life = armor;
+        this.life = ARMOR;
         this.pos = pos;
         this.game = game;
         this.dir = Move.LEFT;
-        this.cyclesToMove = 4;
-        this.speed = 1;
-        this.alienManager = manager;
+        this.cyclesToMove = game.getCycle();
+        this.speed = cyclesToMove;
+        this.manager = manager;
     }
 
     public boolean isAlive() {
@@ -53,7 +52,7 @@ public class RegularAlien {
     }
 
     public void receiveDamage() {
-        life -= getDamage();
+        life -= game.getUCMShip().getDamage();
     }
 
     public boolean isOut() {
@@ -97,38 +96,57 @@ public class RegularAlien {
     	die();
     }
     
-    public void automaticMove() {
-        cyclesToMove--;
-        if (cyclesToMove == 0) {
-            performMovement(dir);
-            onBorder=false;
-            cyclesToMove = 4; 
-        }
-    }
-    
-    public void descent() {
-        performMovement(Move.DOWN);
-        if (!onBorder) {
-        	onBorder = true;
 
-            if (dir == Move.RIGHT) {
-                dir = Move.LEFT;
+    public void automaticMove() {
+        if(manager.readyToDescend()) {
+            if(manager.onBorder()) {
+                descent();
             } else {
-                dir = Move.RIGHT;
+                performMovement(dir);
             }
         }
-  
+        else {
+            cyclesToMove--;
+            if(cyclesToMove == 0) {
+                if(!manager.onBorder()) {
+                    performMovement(dir);
+                }
+                cyclesToMove = game.getCycle();
+            }
+        }
     }
+ 
+    
+    public void descent() {
+    	 performMovement(Move.DOWN);
+    	 if (dir == Move.RIGHT) {
+             dir = Move.LEFT;
+         } else {
+             dir = Move.RIGHT;
+         }
+        
+    }
+   	 
     
     public boolean isInBorder() {
-        return pos.getX() == 0 || pos.getX() >= Game.DIM_X - 1;
+        return pos.getX() == 0 || pos.getX() == Game.DIM_X - 1;
     }
 
     public boolean receiveAttack(UCMLaser laser) {
+    	boolean exito = false;
         if (pos.equals(laser.pos)) {
-            return true;
+            exito =  true;
         }
-        return false; 
+        return exito; 
     }
+    
+    public boolean readyToDescent() {
+    	boolean desc = false;
+       if(manager.onBorder()) {
+    	   desc = true;
+       }
+       return desc;
+    }
+    
 }
 

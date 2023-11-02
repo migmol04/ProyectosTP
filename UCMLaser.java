@@ -10,8 +10,8 @@ import tp1.view.Messages;
 Class that represents the laser fired by UCMShip.*/
 public class UCMLaser {
 
-    public static final int ARMOR = 10;
-    public static final int DMG = 10;
+    public static final int ARMOR = 1;
+    public static final int DMG = 1;
 
     private Move dir;
     private Game game;
@@ -85,6 +85,11 @@ public class UCMLaser {
     	return Messages.LASER_SYMBOL;
     }
     
+    
+    public int getDamage() {
+    	return DMG;
+    	
+    }
 	
 	
     /*public boolean performAttack(RegularAlien other) {

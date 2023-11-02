@@ -22,6 +22,8 @@ public enum Move {
 	public int getY() {
 		return y;
 	}
+	
+	
 
 
 	//TODO fill your code

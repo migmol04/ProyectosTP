@@ -1,12 +1,13 @@
 package tp1.logic;
 import java.util.Scanner;
+
 import java.util.Random;
 import tp1.control.*;
 
 import tp1.logic.gameobjects.*;
 import tp1.logic.lists.*;
 
-// TODO implementarlo
+
 public class Game {
 
 	public static final int DIM_X = 9;
@@ -18,7 +19,8 @@ public class Game {
 	private RegularAlien alien;
 	private AlienManager manager;
 	private RegularAlienList list;
-
+	private DestroyerAlienList Dlist;
+    private Ufo ufo;
 
 	//TODO fill your code
 
@@ -28,13 +30,10 @@ public class Game {
 		ucmShip = new UCMShip(this);
 		this.laser = new UCMLaser(this, ucmShip.getPosition());
 		this.laser.die();
-		list = new RegularAlienList(5);
-	    for (int i = 0; i < 5; i++) {
-	    	 Position alienPosition = new Position(i + 3, 3);
-	        alien = new RegularAlien(this, manager, alienPosition);
-	        list.add(alien);}
-	    
-	    manager = new AlienManager(this, level, list);
+		this.ufo = new Ufo(this);
+	    manager = new AlienManager(this, level);
+	    list = manager.initializeRegularAliens();
+	    Dlist = manager.initializeDestroyerAliens();
 }
 	
 
@@ -44,42 +43,59 @@ public class Game {
 
 
 	public int getCycle() {
-		//TODO fill your code
-		return 0;
+		return getLevel().getSpeed();
 	}
 
 	public int getRemainingAliens() {
-		//TODO fill your code
-		return 0;
+		return manager.getRemainingAliens();
 	}
 
 	public String positionToString(int col, int row) {
+		
 	    Position pos = new Position(col, row);
 	    if (ucmShip.isOnPosition(pos)) {
 	        return ucmShip.getSymbol();
 	    } else if (laser.isOnPosition(pos)) {
 	        return laser.getSymbol();
-	    } else if (alien.isOnPosition(pos)) {
-	        return alien.getSymbol();
-	    } else {
-	    	for (int i = 0; i < list.size(); i++) {
-	            if (list.getObjectInPosition(i).isOnPosition(pos)) {
-	                return list.getObjectInPosition(i).getSymbol();
-	            }
-	        }
+	    } 
+
+	    else if(ufo.isOnPosition(pos)) {
+	    	return ufo.getSymbol();
 	    }
+	    else  {
+	    	for(int i = 0; i < this.list.size(); i++) {
+	    		if(this.list.getObjectInPosition(i).isOnPosition(pos)) {
+	    			return this.list.getObjectInPosition(i).getSymbol();
+	    		}
+	    		
+	    	for(int j = 0; j < this.Dlist.size(); j++) {
+	    		if(this.Dlist.getObjectInPosition(j).isOnPosition(pos)) {
+	    			return this.Dlist.getObjectInPosition(j).getSymbol();
+	    		}
+	    	}
+	    	}
+	   }
+	 
 	    return "";
 	}
 
 
 	public boolean playerWin() {
-		//TODO fill your code
-		return false;
+		boolean win = false;
+       if(list.size() == 0) {
+    	   win = true;
+		}
+		return win;
 	}
 
 	public boolean aliensWin() {
-		//TODO fill your code
-		return false;
+		boolean win = false;
+		if(ucmShip.getLife() == 0) {
+			win = true;
+			
+		}
+		
+		return win;
 	}
 
 	public void enableLaser() {
@@ -88,9 +104,10 @@ public class Game {
 	
 
 	public Random getRandom() {
-		//TODO fill your code
-		return null;
+		Random r1 = new Random();
+		return r1;
 	}
+		
 
 	public Level getLevel() {
 		return this.level;
@@ -107,9 +124,9 @@ public class Game {
 	            this.ucmShip.enableLaser();
 	        }
 	        
-	       if(!manager.readyToDescent()) {
-	    	   list.automaticMove();
-	       }
+	       manager.automaticMoves();
+	       ufo.computerAction();
+	       
 		 
 		 
 		    // Mover el láer

@@ -1,7 +1,8 @@
 package tp1.logic.lists;
 
+import tp1.logic.Game;
 import tp1.logic.gameobjects.RegularAlien;
-import tp1.logic.Position;
+
 import tp1.logic.gameobjects.UCMLaser;
 
 public class RegularAlienList {
@@ -11,15 +12,46 @@ public class RegularAlienList {
 
     public RegularAlienList(int capacity) {
         aliens = new RegularAlien[capacity];
-        num = 0;
+        this.num = capacity;
     }
 
-    public void add(RegularAlien alien) {
-        if (num < aliens.length) {
-            aliens[num] = alien;
-            num++;
+    public void add(RegularAlien alien, int pos) {
+        if (pos < aliens.length) {
+            aliens[pos] = alien;
         } 
     }
+    
+    public boolean isInBorder() {
+    	boolean esBord = false;
+       for(int i = 0; i < num && !esBord; i++) {
+    	   if(aliens[i].isInBorder()) {
+    		   esBord = true;
+    	   }
+       }
+       return esBord;
+    }
+    
+    public void descend() {
+    	if(readyToDescent()) {
+    		for(int i = 0; i < num; i++) {
+        		aliens[i].descent();
+        	}
+    		
+    	}
+    }
+    
+    
+    public boolean readyToDescent() {
+    	boolean ready = false;
+    	for(int i = 0; i < num; i++) {
+    		if(aliens[i].isInBorder()) {
+    			ready = true;
+    		}
+    	}
+    	return ready;
+    }
+    
+
 
     public void remove(RegularAlien alien) {
         int index = -1;
@@ -37,6 +69,16 @@ public class RegularAlienList {
             num--;
         }
     }
+    
+    public boolean isInFinalRow() {
+    	boolean row = false;
+    	for(int i = 0; i < num; i++) {
+    		if(aliens[i].isinFinalRow()) {
+    			row = true;
+    		}
+    	}
+    	return row;
+    }
 
 
     public int size() {
@@ -53,14 +95,15 @@ public class RegularAlienList {
         	alien = null;
         return alien;
     }
+    
 
-    public void computerAction() {
+    public void computerActions() {
         for (int i = 0; i < num; i++) {
             aliens[i].computerAction();
         }
     }
 
-    public void automaticMove() {
+    public void automaticMoves() {
         for (int i = 0; i < num; i++) {
            aliens[i].automaticMove();
         }

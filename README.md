@@ -1,19 +1,19 @@
-# Proyectos de las asignaturas de Tecnología de la Programación 1 y 2  
-Universidad Complutense de Madrid  
+# Projects from the Programming Technology 1 and 2 Courses  
+Complutense University of Madrid  
 
-Este repositorio incluye los proyectos desarrollados en las asignaturas **Tecnología de la Programación 1 (TP1)** y **Tecnología de la Programación 2 (TP2)** de la Universidad Complutense de Madrid.
+This repository includes the projects developed for the **Programming Technology 1 (TP1)** and **Programming Technology 2 (TP2)** courses at the Complutense University of Madrid.
 
 ## TP1 - Space Invaders  
-El proyecto de **TP1** es una implementación básica del clásico videojuego **Space Invaders**, desarrollado en Java. El juego permite:  
+The **TP1** project is a basic implementation of the classic **Space Invaders** video game, developed in Java. The game features:  
 
-- Configurar el nivel de dificultad: **EASY**, **NORMAL** o **HARD**.  
-- Introducir una semilla opcional para generar elementos aleatorios de manera reproducible.  
-- Jugar de forma interactiva a través de un controlador basado en consola.  
+- Difficulty level configuration: **EASY**, **NORMAL**, or **HARD**.  
+- An optional seed input for reproducible random element generation.  
+- Interactive gameplay through a console-based controller.  
 
-### Objetivos de aprendizaje:
-Este proyecto tiene como objetivo principal aplicar conceptos de programación estructurada, manejo de entradas y salidas en consola, y la gestión de estados en un juego.  
+### Learning Objectives:
+This project focuses on applying structured programming concepts, handling input and output in a console-based environment, and managing game states effectively.  
 
 ---
 
-## TP2 - Ecosistema de Animales 
+## TP2 - Animal Ecosystem  
 TODO
